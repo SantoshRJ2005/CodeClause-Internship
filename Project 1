@@ -1,0 +1,43 @@
+import random as rd
+import string
+
+def generate_password(glen, gnum, gsym, glet):
+    pwd = []
+    
+    if gsym:
+        pwd.append(rd.choice(string.punctuation))
+    if gnum:
+        pwd.append(rd.choice(string.digits))
+    if glet == "caps":
+        pwd.append(rd.choice(string.ascii_uppercase))
+    elif glet == "lows":
+        pwd.append(rd.choice(string.ascii_lowercase))
+    else:  # mixed case
+        pwd.append(rd.choice(string.ascii_letters))
+
+    while len(pwd) < glen:
+        choices = ""
+        if gsym:
+            choices += string.punctuation
+        if gnum:
+            choices += string.digits
+        if glet == "caps":
+            choices += string.ascii_uppercase
+        elif glet == "lows":
+            choices += string.ascii_lowercase
+        else:  # mixed case
+            choices += string.ascii_letters
+        
+        pwd.append(rd.choice(choices))
+    
+    rd.shuffle(pwd)
+    
+    return ''.join(pwd)
+
+glen = int(input("Enter the desired password length: "))
+gnum = input("Include numbers? (yes/no): ").lower() == 'yes'
+gsym = input("Include symbols? (yes/no): ").lower() == 'yes'
+glet = input("Letter case preference ('caps' for uppercase, 'lows' for lowercase, 'both' for mixed): ").lower()
+
+password = generate_password(glen, gnum, gsym, glet)
+print("Generated password:", password)
